@@ -2,7 +2,7 @@
 
 Automatically detects split-screen videos, selects the cleanest panel, crops it out, and encodes it as a standalone vertical video.
 
-Built for batch processing — point it at a folder and it handles the rest. All progress is tracked in a local database so you can stop and resume at any time.
+Built for batch processing - point it at a folder and it handles the rest. All progress is tracked in a local database so you can stop and resume at any time.
 
 ![Python 3.8+](https://img.shields.io/badge/python-3.8%2B-blue)
 
@@ -30,8 +30,8 @@ This tool:
 ## Requirements
 
 - **Python 3.8+**
-- **FFmpeg** (with `ffprobe`) — must be available in your system PATH
-- **NVIDIA GPU** (optional) — if available, uses hardware-accelerated HEVC encoding (`hevc_nvenc`). If no compatible GPU is found at startup, the script uses CPU encoding (`libx265`) instead.
+- **FFmpeg** (with `ffprobe`) - must be available in your system PATH
+- **NVIDIA GPU** (optional) - if available, uses hardware-accelerated HEVC encoding (`hevc_nvenc`). If no compatible GPU is found at startup, the script uses CPU encoding (`libx265`) instead.
 
 ### Python Dependencies
 
@@ -68,7 +68,7 @@ numpy
 
 ## Quick Start
 
-The simplest usage — process all videos in a folder:
+The simplest usage - process all videos in a folder:
 
 ```bash
 python vertical_pipeline.py /path/to/your/videos
@@ -92,7 +92,7 @@ This runs detection only and shows which videos have splits and which panel woul
 
 ## Configuration
 
-All settings live at the top of `vertical_pipeline.py` in the `CONFIG` block. Open the file and edit the values directly — no config files needed.
+All settings live at the top of `vertical_pipeline.py` in the `CONFIG` block. Open the file and edit the values directly - no config files needed.
 
 ### Detection
 
@@ -128,7 +128,7 @@ Presets control the trade-off between encoding speed, file size, and quality:
 | Preset | Bitrate Ratio | GPU Preset | CPU Preset | Use When |
 |---|---|---|---|---|
 | `fast` | 0.9x original | p3 | faster | You want quick results and don't mind larger files |
-| `balanced` | 0.7x original | p5 | medium | General use — good balance of speed, size, and quality |
+| `balanced` | 0.7x original | p5 | medium | General use - good balance of speed, size, and quality |
 | `quality` | 0.7x original | p7 | slow | You want the best quality per bit and can wait longer |
 
 The bitrate ratio is applied to the source video's bitrate. For example, a source at 10,000 kbps with the `balanced` preset produces output at 7,000 kbps.
@@ -166,7 +166,7 @@ The tool samples frames at regular intervals and compares panels using normalize
 
 ### Panel Selection
 
-Once a split is detected, each panel's edge density is measured using Canny edge detection. The panel with the **lowest** edge density is selected — this tends to be the panel with the least overlays, watermarks, or UI clutter. If all panels have similar edge density (within `EDGE_DENSITY_MIN_DIFF`), the first panel is used.
+Once a split is detected, each panel's edge density is measured using Canny edge detection. The panel with the **lowest** edge density is selected - this tends to be the panel with the least overlays, watermarks, or UI clutter. If all panels have similar edge density (within `EDGE_DENSITY_MIN_DIFF`), the first panel is used.
 
 ### Encoding
 
@@ -178,9 +178,9 @@ Once a split is detected, each panel's edge density is measured using Canny edge
 
 All state is tracked in an SQLite database (`pipeline.db` in the output directory). This enables:
 
-- **Resumability** — stop and restart without reprocessing completed videos
-- **Re-runs** — lower the threshold later and promote previously skipped videos
-- **Status tracking** — see how many videos are done, skipped, errored, etc.
+- **Resumability** - stop and restart without reprocessing completed videos
+- **Re-runs** - lower the threshold later and promote previously skipped videos
+- **Status tracking** - see how many videos are done, skipped, errored, etc.
 
 The database is created automatically on first run. You can safely delete it to start fresh.
 
@@ -251,7 +251,7 @@ python vertical_pipeline.py ./my_videos --workers 0
 
 ### Encoding errors
 - Run `ffmpeg -version` to make sure FFmpeg is installed and in PATH.
-- If you see NVENC errors, your GPU may not support HEVC encoding. The encoder is chosen once at startup — if GPU detection passed but encoding still fails, use `--reset-errors` to retry. You can also force CPU encoding by editing the script (set `use_gpu = False` in `main()`).
+- If you see NVENC errors, your GPU may not support HEVC encoding. The encoder is chosen once at startup - if GPU detection passed but encoding still fails, use `--reset-errors` to retry. You can also force CPU encoding by editing the script (set `use_gpu = False` in `main()`).
 - Use `--reset-errors` to retry failed videos after fixing the issue.
 
 ### Slow performance
